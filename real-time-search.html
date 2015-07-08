@@ -15,7 +15,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
 
 	<script type="text/jsx">
-		var SearchExample = React.createClass({
+		var Search = React.createClass({
 			getInitialState: function() {
 				return {
 					searchString: ''
@@ -41,7 +41,6 @@
 						return library.name.toLowerCase().match(searchString);
 					});
 				}
-				console.log(libraries);
 
 				return (
 					<div>
@@ -50,12 +49,18 @@
 						<ul>
 							{
 								libraries.map(function(library) {
-									return <li><a href={library.url}>{library.name}</a></li>
+									return <SearchItem name={library.name} url={library.url} />
 								})
 							}
 						</ul>
 					</div>
 				);
+			}
+		});
+
+		var SearchItem = React.createClass({
+			render: function() {
+				return <li><a href={this.props.url}>{this.props.name}</a></li>
 			}
 		});
 
@@ -77,7 +82,7 @@
 		];
 
 		React.render(
-			<SearchExample items={libraries} />,
+			<Search items={libraries} />,
 			document.body
 		)
 	</script>
