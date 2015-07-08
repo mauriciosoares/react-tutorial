@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React Tutorial</title>
+	<style>
+		li.true {
+			background-color: black;
+			color: white;
+		}
+	</style>
+</head>
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+
+	<script type="text/jsx">
+		var SearchExample = React.createClass({
+			getInitialState: function() {
+				return {
+					searchString: ''
+				};
+			},
+
+			handleChange: function(e) {
+				// try
+				// comment this line
+
+				this.setState({
+					searchString: e.target.value
+				});
+			},
+
+			render: function() {
+				var libraries = this.props.items,
+					searchString = this.state.searchString.trim().toLowerCase();
+
+				if(searchString.length) {
+					// filters the libraries
+					libraries = libraries.filter(function(library) {
+						return library.name.toLowerCase().match(searchString);
+					});
+				}
+				console.log(libraries);
+
+				return (
+					<div>
+						<input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="type here" />
+
+						<ul>
+							{
+								libraries.map(function(library) {
+									return <li><a href={library.url}>{library.name}</a></li>
+								})
+							}
+						</ul>
+					</div>
+				);
+			}
+		});
+
+		var libraries = [
+			{ name: 'Backbone.js', url: 'http://documentcloud.github.io/backbone/'},
+			{ name: 'AngularJS', url: 'https://angularjs.org/'},
+			{ name: 'jQuery', url: 'http://jquery.com/'},
+			{ name: 'Prototype', url: 'http://www.prototypejs.org/'},
+			{ name: 'React', url: 'http://facebook.github.io/react/'},
+			{ name: 'Ember', url: 'http://emberjs.com/'},
+			{ name: 'Knockout.js', url: 'http://knockoutjs.com/'},
+			{ name: 'Dojo', url: 'http://dojotoolkit.org/'},
+			{ name: 'Mootools', url: 'http://mootools.net/'},
+			{ name: 'Underscore', url: 'http://documentcloud.github.io/underscore/'},
+			{ name: 'Lodash', url: 'http://lodash.com/'},
+			{ name: 'Moment', url: 'http://momentjs.com/'},
+			{ name: 'Express', url: 'http://expressjs.com/'},
+			{ name: 'Koa', url: 'http://koajs.com/'},
+		];
+
+		React.render(
+			<SearchExample items={libraries} />,
+			document.body
+		)
+	</script>
+</body>
+</html>
