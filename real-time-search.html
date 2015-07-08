@@ -44,7 +44,7 @@
 
 				return (
 					<div>
-						<input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="type here" />
+						<SearchInput searchString={this.state.searchString} handleChange={this.handleChange} />
 
 						<ul>
 							{
@@ -55,6 +55,12 @@
 						</ul>
 					</div>
 				);
+			}
+		});
+
+		var SearchInput = React.createClass({
+			render: function() {
+				return <input type="text" value={this.props.searchString} onChange={this.props.handleChange} placeholder="type here" />
 			}
 		});
 
