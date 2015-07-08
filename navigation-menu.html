@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React Tutorial</title>
+	<style>
+		li.true {
+			background-color: black;
+			color: white;
+		}
+	</style>
+</head>
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+
+	<script type="text/jsx">
+		var Menu = React.createClass({
+			getInitialState: function() {
+				return {
+					focused: 0
+				};
+			},
+
+			click: function(index) {
+				this.setState({
+					focused: index
+				})
+			},
+
+			render: function() {
+				return (
+					<div>
+						<ul>
+							{
+								this.props.items.map(function(item, index) {
+									return <MenuItem key={index} name={item} clickCallback={this.click.bind(this, index)} isActive={(index === this.state.focused)} />
+								}.bind(this))
+							}
+						</ul>
+
+						<p>Selected: {this.props.items[this.state.focused]}</p>
+					</div>
+				);
+			}
+		});
+
+		var MenuItem = React.createClass({
+			getInitialState: function() {
+				return {
+					isActive: this.props.isActive
+				}
+			},
+
+			render: function() {
+				return <li className={this.props.isActive} onClick={this.props.clickCallback}>{this.props.name}</li>
+			}
+		});
+
+		React.render(
+			<Menu items={ ['Home', 'Service', 'About', 'Contact us'] } />,
+			document.body
+		)
+	</script>
+</body>
+</html>
