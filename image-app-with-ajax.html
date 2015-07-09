@@ -3,6 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
+  <style>
+    html{
+        font:14px normal Arial, sans-serif;
+        color:#626771;
+        background-color:#fff;
+    }
+
+    body{
+        padding:20px;
+        text-align: center;
+    }
+
+    h1{
+        font-size: 18px;
+        margin-bottom: 30px;
+        padding-top: 20px;
+    }
+
+    div.picture{
+        display: inline-block;
+        margin: 5px;
+        cursor:pointer;
+        position: relative;
+    }
+
+    div.picture.favorite:after{
+        content: '❤';
+        position: absolute;
+        font-size: 80px;
+        line-height: 200px;
+        color: #FF224D;
+        width: 100%;
+        text-align: center;
+        left: 0;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+        font-weight: bold;
+    }
+
+    .pictures, .favorites{
+        white-space: nowrap;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        height: 230px;
+        background-color: #F3F3F3;
+    }
+
+    .pictures p, .favorites p {
+        padding-top: 100px;
+        font-size: 13px;
+    }
+  </style>
 </head>
 <body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
@@ -12,7 +63,7 @@
   <script type="text/jsx">
     var Picture = React.createClass({
       clickHandler: function() {
-        this.props.onClick(this.props.ref);
+        this.props.onClick(this.props.refId);
       },
 
       render: function() {
@@ -58,9 +109,47 @@
         }.bind(this));
       },
 
+      pictureClick: function(id) {
+        var favorites = this.state.favorites,
+          pictures = this.state.pictures;
+
+          var picture = pictures.filter(function(picture) {
+            return picture.id === id;
+          });
+
+          if(picture[0].favorite) {
+            return;
+          }
+
+          picture[0].favorite = true;
+          favorites.push(picture[0]);
+
+          this.setState({
+            pictures: pictures,
+            favorites: favorites
+          });
+      },
+
       render: function() {
-        console.log(this.state.pictures);
-        return <p>1</p>;
+        var pictures = this.state.pictures.map(function(picture, index) {
+          return <Picture key={index} refId={picture.id} src={picture.src} title={picture.title} favorite={picture.favorite} onClick={this.pictureClick} />
+        }.bind(this));
+
+        if(!pictures.length) pictures = <p>Loading images...</p>;
+
+        var favorites = this.state.favorites.map(function(picture, index) {
+          return <Picture key={index} refId={picture.id} src={picture.src} title={picture.title} favorite={true} onClick={this.favoriteClick} />
+        }.bind(this))
+
+        if(!favorites.length) favorites = <p>Click an image to mark it as a favorite.</p>;
+
+        return (
+          <div>
+            <h1>Popular Instagram pics</h1>
+            <div className="pictures"> {pictures} </div>
+            <div className="favorites"> {favorites} </div>
+          </div>
+        )
       }
     });
 
