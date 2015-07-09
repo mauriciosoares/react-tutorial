@@ -111,15 +111,14 @@
 
       pictureClick: function(id) {
         var favorites = this.state.favorites,
-          pictures = this.state.pictures;
+          pictures = this.state.pictures,
+          picture;
 
-        var picture = pictures.filter(function(picture) {
+        picture = pictures.filter(function(picture) {
           return picture.id === id;
         });
 
-        if(picture[0].favorite) {
-          return this.favoriteClick(id);
-        }
+        if(picture[0].favorite) return this.favoriteClick(id);
 
         picture[0].favorite = true;
         favorites.push(picture[0]);
@@ -132,9 +131,10 @@
 
       favoriteClick: function(id) {
         var favorites = this.state.favorites,
-            pictures = this.state.pictures;
+            pictures = this.state.pictures,
+            picture;
 
-        var picture = pictures.filter(function(picture) {
+        picture = pictures.filter(function(picture) {
           return picture.id === id;
         });
 
