@@ -113,21 +113,38 @@
         var favorites = this.state.favorites,
           pictures = this.state.pictures;
 
-          var picture = pictures.filter(function(picture) {
-            return picture.id === id;
-          });
+        var picture = pictures.filter(function(picture) {
+          return picture.id === id;
+        });
 
-          if(picture[0].favorite) {
-            return;
-          }
+        if(picture[0].favorite) {
+          return this.favoriteClick(id);
+        }
 
-          picture[0].favorite = true;
-          favorites.push(picture[0]);
+        picture[0].favorite = true;
+        favorites.push(picture[0]);
 
-          this.setState({
-            pictures: pictures,
-            favorites: favorites
-          });
+        this.setState({
+          pictures: pictures,
+          favorites: favorites
+        });
+      },
+
+      favoriteClick: function(id) {
+        var favorites = this.state.favorites,
+            pictures = this.state.pictures;
+
+        var picture = pictures.filter(function(picture) {
+          return picture.id === id;
+        });
+
+        picture[0].favorite = false;
+        favorites.splice(favorites.indexOf(picture[0]), 1)
+
+        this.setState({
+          pictures: pictures,
+          favorites: favorites
+        })
       },
 
       render: function() {
